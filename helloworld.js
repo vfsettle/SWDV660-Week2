@@ -9,7 +9,7 @@ http.createServer(function (request, response) {
 
    // Send the response body as "Welcome Message"
    response.end('My First Web App Deployment\n')
-}).listen(3333)
+}).listen(3000)
 
 // Console will print the message
 console.log('Server running')
