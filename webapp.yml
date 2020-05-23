@@ -1,0 +1,43 @@
+---
+#playbook for hello world
+
+- hosts: webservers
+  tasks:
+    - name: upgrade all packages
+      become: yes
+      yum: name=* state=latest
+
+    - name: installing node and npm
+      become: yes
+      yum:
+        enablerepo: epel
+        state: installed
+        name: 
+        - nodejs
+        - npm
+
+    - name: copying the application file
+      copy: 
+        src: /home/ec2-user/swdv660/helloworld.js
+        dest: /home/ec2-user/
+        owner: ec2-user
+        group: ec2-user
+        mode: 0644
+
+    - name: copying the upstart file
+      become: yes
+      copy: 
+        src: /home/ec2-user/swdv660/helloworld.conf
+        dest: /etc/init/helloworld.conf
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: restart helloworld
+      become: yes
+      service: name=helloworld state=restarted
+
+    - name: install mySQL
+      become: yes
+      service: name=mysql-server state=installed
+      
